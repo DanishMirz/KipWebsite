@@ -1,38 +1,165 @@
 .App {
+  transition: background-color 1s ease; /* Ensure the transition is applied */
+}
+
+.app-header {
+  text-align: center;
+  background-color: #333333;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.main-content-wrapper {
+  display: flex;
+}
+
+.upload-button {
+  cursor: pointer;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.image-container {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Set a fixed height for the image container */
+  cursor: pointer;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image maintains its aspect ratio */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.image-container:hover .overlay {
+  opacity: 1;
+}
+
+.timestamp {
+  margin-bottom: 10px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.delete-button {
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.side-panel {
+  width: 300px;
+  background-color: #333333;
+  padding: 20px;
+  border-right: 1px solid #161616;
+  overflow-y: auto;
+  max-height: 100vh;
+  position: fixed;
+  left: -300px;
+  top: 0;
+  height: 100%;
+  transition: left 1s ease;
+  z-index: 1000; /* Ensure it is in front of everything */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.side-panel:hover {
+  left: 0;
+}
+
+.side-panel-images {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 10px;
+}
+
+.side-image-container {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  height: 100px; /* Set a fixed height for the image container */
+  cursor: pointer;
+}
+
+.side-uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image maintains its aspect ratio */
+}
+
+.side-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-.App-link {
-  color: #61dafb;
+.side-image-container:hover .side-overlay {
+  opacity: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.side-timestamp {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.side-delete-button {
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
