@@ -20,14 +20,17 @@ const ImageUploader = () => {
     }
   };
 
-  const handleUpload = () => {
+  const handleUpload =  async () => {
     if (image) {
       const storageRef = ref(storage, `images/${image.name}`);
-      uploadBytes(storageRef, image).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          console.log('File available at', url);
-        });
+      await uploadBytes(storageRef, image);
+      const url = await getDownloadURL(storageRef);
+      
+      await addDoc(collection(db, 'images'), {
+        url,
+        createdAt: Timestamp.now(),
       });
+      console.log('File available at', url);
     }
   };
 

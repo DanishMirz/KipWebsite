@@ -1,21 +1,42 @@
+// src/components/ImageUploaderGrid.js
 import React, { useState } from 'react';
-import './ImageUploaderGrid.css'; // Import the CSS file
+import { storage, db } from '../firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import './ImageUploaderGrid.css';
 
 const ImageUploaderGrid = ({ onBackgroundColorChange, backgroundColor, onImageUpload, onDeleteImage, images, onImageClick }) => {
-  const handleImageUpload = (event) => {
-    const files = event.target.files;
+  const handleFileChange = async (event) => {
+    const files = Array.from(event.target.files);
+    console.log('Selected files:', files);  // Log the selected files for debugging
+
     const newImages = [];
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const timestamp = new Date().toLocaleString();
-        newImages.push({ src: reader.result, timestamp });
-        if (newImages.length === files.length) {
-          onImageUpload(newImages);
-        }
-      };
-      reader.readAsDataURL(file);
+    for (const file of files) {
+      if (file && file.name) {
+        console.log('Uploading file:', file.name);  // Log the file name for debugging
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+
+        const newImage = {
+          src: url,
+          timestamp: new Date().toLocaleString()
+        };
+
+        // Add to Firestore
+        await addDoc(collection(db, 'images'), {
+          url,
+          createdAt: Timestamp.now(),
+        });
+
+        newImages.push(newImage);
+      } else {
+        console.error('Invalid file or file name is undefined');
+      }
+    }
+
+    if (newImages.length > 0) {
+      onImageUpload(newImages); // Notify parent component with the new images
     }
   };
 
@@ -30,7 +51,7 @@ const ImageUploaderGrid = ({ onBackgroundColorChange, backgroundColor, onImageUp
         type="file"
         accept="image/*"
         multiple
-        onChange={handleImageUpload}
+        onChange={handleFileChange}
         style={{ display: 'none' }}
         id="imageUpload"
       />
