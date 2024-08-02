@@ -41,7 +41,7 @@ const ImageUploaderGrid = ({ onBackgroundColorChange, backgroundColor, onImageUp
         Insert Image
       </label>
       <div style={{ marginBottom: '20px' }}>
-        <label htmlFor="backgroundColorPicker" style={{ marginRight: '10px' }}></label>
+        <label htmlFor="backgroundColorPicker" style={{ marginRight: '10px' }}>Color:</label>
         <input
           type="color"
           id="backgroundColorPicker"
