@@ -5,25 +5,31 @@ import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import './ImageGallery.css';
 
 const ImageGallery = () => {
-  const [images, setImages] = useState([]);
+  const [media, setMedia] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(db, 'images'), orderBy('createdAt', 'desc'));
+    const q = query(collection(db, 'media'), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const imagesData = [];
+      const mediaData = [];
       snapshot.forEach((doc) => {
-        imagesData.push(doc.data());
+        mediaData.push(doc.data());
       });
-      setImages(imagesData);
+      setMedia(mediaData);
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <div className="image-gallery">
-      {images.map((image, index) => (
-        <img key={index} src={image.url} alt="Gallery" className="gallery-image" />
+    <div className="media-gallery">
+      {media.map((item, index) => (
+        <div key={index} className="gallery-item">
+          {item.type === 'image' ? (
+            <img src={item.url} alt="Gallery" className="gallery-image" />
+          ) : (
+            <video src={item.url} controls className="gallery-video" />
+          )}
+        </div>
       ))}
     </div>
   );

@@ -1,13 +1,15 @@
 import React from 'react';
-import './ImageModal.css'; // Import the CSS file
+import './ImageModal.css';
 
-const ImageModal = ({ src, onClose }) => {
+const ImageModal = ({ src, type, onClose }) => {
   return (
-    <div className="image-modal" onClick={onClose}>
-      <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
-        <span className="image-modal-close" onClick={onClose}>&times;</span>
-        <img src={src} alt="Enlarged view" className="image-modal-image" />
-      </div>
+    <div className="media-modal">
+      <button onClick={onClose} className="close-button">X</button>
+      {type === 'video' ? (
+        <video src={src} controls autoPlay style={{ width: '100%', height: 'auto' }} />
+      ) : (
+        <img src={src} alt="Enlarged view" style={{ width: '100%', height: 'auto' }} />
+      )}
     </div>
   );
 };

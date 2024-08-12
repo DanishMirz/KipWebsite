@@ -1,22 +1,24 @@
 import React from 'react';
-import './SidePanel.css'; // Import the CSS file
+import './SidePanel.css';
 
-const SidePanel = ({ images, onDeleteImage, onImageClick }) => {
+const SidePanel = ({ media, onDeleteMedia, onMediaClick, backgroundColor }) => {
   return (
-    <div className="side-panel">
-      <h2>IMAGES</h2>
-      <div className="side-panel-images">
-        {images.map((image, index) => (
-          <div key={index} className="side-image-container" onClick={() => onImageClick(image.src)}>
-            <img src={image.src} alt={`Uploaded ${index}`} className="side-uploaded-image" />
+    <div className="side-panel" style={{ backgroundColor: backgroundColor }}>
+      <h2>Media</h2>
+      <div className="side-panel-media">
+        {media.map((item, index) => (
+          <div key={index} className="side-media-container" onClick={() => onMediaClick(item.src, item.type)}>
+            {item.type === 'image' ? (
+              <img src={item.src} alt={`Uploaded ${index}`} className="side-uploaded-image" />
+            ) : (
+              <video src={item.src} controls className="side-uploaded-media" />
+            )}
             <div className="side-overlay">
-              <div className="side-timestamp">
-                {image.timestamp}
-              </div>
+              <div className="side-timestamp">{item.timestamp}</div>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onDeleteImage(index);
+                  onDeleteMedia(index);
                 }}
                 className="side-delete-button"
               >

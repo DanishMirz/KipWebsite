@@ -1,33 +1,37 @@
-// src/components/ImageUploader.js
 import React, { useState } from 'react';
-import { storage } from '../firebase';
+import { storage, db } from '../firebase'; // Make sure db is imported
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { collection, addDoc, Timestamp } from 'firebase/firestore'; // Import Firestore functions
 import './ImageUploader.css';
 
 const ImageUploader = () => {
-  const [image, setImage] = useState(null);
-  const [imageSrc, setImageSrc] = useState(null);
+  const [media, setMedia] = useState(null);
+  const [mediaSrc, setMediaSrc] = useState(null);
+  const [mediaType, setMediaType] = useState(null);
 
-  const handleImageUpload = (event) => {
+  const handleMediaUpload = (event) => {
     const file = event.target.files[0];
-    setImage(file);
+    setMedia(file);
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImageSrc(reader.result);
+      setMediaSrc(reader.result);
     };
     if (file) {
+      setMediaType(file.type.startsWith('video/') ? 'video' : 'image');
       reader.readAsDataURL(file);
     }
   };
 
-  const handleUpload =  async () => {
-    if (image) {
-      const storageRef = ref(storage, `images/${image.name}`);
-      await uploadBytes(storageRef, image);
+  const handleUpload = async () => {
+    if (media) {
+      const storageRef = ref(storage, `media/${media.name}`);
+      await uploadBytes(storageRef, media);
       const url = await getDownloadURL(storageRef);
       
-      await addDoc(collection(db, 'images'), {
+      // Save the media URL and type to Firestore
+      await addDoc(collection(db, 'media'), {
         url,
+        type: mediaType,
         createdAt: Timestamp.now(),
       });
       console.log('File available at', url);
@@ -38,16 +42,22 @@ const ImageUploader = () => {
     <div className="image-uploader">
       <input
         type="file"
-        accept="image/*"
-        onChange={handleImageUpload}
+        accept="image/*,video/*"
+        onChange={handleMediaUpload}
         className="file-input"
-        id="imageUpload"
+        id="mediaUpload"
       />
-      <label htmlFor="imageUpload" className="upload-label">
-        Insert Image
+      <label htmlFor="mediaUpload" className="upload-label">
+        Insert Media
       </label>
-      {imageSrc && <img src={imageSrc} alt="Uploaded" className="image-preview" />}
-      {image && (
+      {mediaSrc && (
+        mediaType === 'image' ? (
+          <img src={mediaSrc} alt="Uploaded" className="media-preview" />
+        ) : (
+          <video src={mediaSrc} controls className="media-preview" />
+        )
+      )}
+      {media && (
         <button onClick={handleUpload} className="upload-button">
           Upload
         </button>
