@@ -48,11 +48,6 @@ const ImageUploaderGrid = ({ onBackgroundColorChange, backgroundColor, onMediaUp
     }
   };
 
-  const handleBackgroundColorChange = (event) => {
-    const color = event.target.value;
-    onBackgroundColorChange(color); // Notify parent component
-  };
-
   const handleMediaClickWrapper = (item) => {
     onMediaClick(item.src, item.type);
   };
@@ -70,16 +65,6 @@ const ImageUploaderGrid = ({ onBackgroundColorChange, backgroundColor, onMediaUp
       <label htmlFor="mediaUpload" className="upload-button">
         Insert Media
       </label>
-      <div style={{ marginBottom: '20px' }}>
-        <label htmlFor="backgroundColorPicker" style={{ marginRight: '10px' }}>
-          Color:
-        </label>
-        <input
-          type="color"
-          id="backgroundColorPicker"
-          onChange={handleBackgroundColorChange}
-        />
-      </div>
       <div className="media-grid" style={{ backgroundColor: backgroundColor }}>
         {media.map((item, index) => (
           <div key={index} className="media-container" onClick={() => handleMediaClickWrapper(item)}>

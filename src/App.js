@@ -12,30 +12,27 @@ import instagramLogo from './Instagram.png';
 import facebookLogo from './facebook.png';
 import youtubeLogo from './youtube.png';
 import steamLogo from './steam.png';
-import profile from './Me.png'
+import profile from './Me.png';
 import ProgrammingIcon from './Programmer.ico';
 import DesigningIcon from './Designing.ico';
 import VideoEditingIcon from './Video editing.ico';
 import DrawingIcon from './2D Art Drawing.ico';
 
-function AppHeader({ setActiveTab }) {
-  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
-  const [logoVisible, setLogoVisible] = useState([false, false, false]);
+function AppHeader({ setActiveTab, backgroundColor, setBackgroundColor }) {
+  const [isOverlayVisible] = useState(true); // Set to true by default
+  const [logoVisible, setLogoVisible] = useState([false, false, false, false, false, false]);
+  const [isHovered, setIsHovered] = useState(false); // Track hover state
 
-  const toggleDropdownAndOverlay = () => {
-    setIsOverlayVisible(!isOverlayVisible);
-
-    if (!isOverlayVisible) {
+  useEffect(() => {
+    if (isOverlayVisible && logoVisible.every(visible => !visible)) {
       setTimeout(() => setLogoVisible([true, false, false, false, false, false]), 500);
       setTimeout(() => setLogoVisible([true, true, false, false, false, false]), 1000);
       setTimeout(() => setLogoVisible([true, true, true, false, false, false]), 1500);
       setTimeout(() => setLogoVisible([true, true, true, true, false, false]), 2000);
       setTimeout(() => setLogoVisible([true, true, true, true, true, false]), 2500);
       setTimeout(() => setLogoVisible([true, true, true, true, true, true]), 3000);
-    } else {
-      setLogoVisible([false, false, false]);
     }
-  };
+  }, [isOverlayVisible, logoVisible]);
 
   return (
     <header className="app-header">
@@ -45,75 +42,51 @@ function AppHeader({ setActiveTab }) {
         <button onClick={() => setActiveTab('about')} className="nav-link">About</button>
         <button onClick={() => setActiveTab('projects')} className="nav-link">Projects</button>
       </nav>
-      
-      <div className="hamburger-menu" onClick={toggleDropdownAndOverlay}>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
+
+      <div className="color-picker-container">
+        <input
+          type="color"
+          value={backgroundColor}
+          onChange={(e) => setBackgroundColor(e.target.value)}
+          className="color-picker"
+        />
       </div>
-      {isOverlayVisible && (
-        <div className="about-overlay">
-          <div className="about-content">
-            <p>Socials</p>
-            <div className="social-icons-container">
-              <div className="social-icon">
+
+      <div 
+        className={`about-overlay ${isHovered ? 'hovered' : ''}`} // Conditional class for hover
+        onMouseEnter={() => setIsHovered(true)} // Show on hover
+        onMouseLeave={() => setIsHovered(false)} // Hide on leave
+      >
+        <div className="socials-text">Socials</div> {/* Text that stays visible */}
+        <div className="about-content">
+          <div className="social-icons-container">
+            {[
+              { logo: discordLogo, url: "https://discord.gg/nEYdbY6zAV" },
+              { logo: twitterLogo, url: "https://x.com/kieon_kip" },
+              { logo: instagramLogo, url: "https://www.instagram.com/peaeanutz/" },
+              { logo: facebookLogo, url: "" },
+              { logo: youtubeLogo, url: "https://www.youtube.com/" },
+              { logo: steamLogo, url: "https://steamcommunity.com/profiles/76561198991066994/" }
+            ].map((icon, index) => (
+              <div className="social-icon" key={index}>
                 <img
-                  src={discordLogo}
-                  alt="Discord Logo"
-                  className={`social-logo ${logoVisible[0] ? 'pop-in' : ''}`}
-                  onClick={() => window.open("https://discord.gg/nEYdbY6zAV", "_blank")}
+                  src={icon.logo}
+                  alt={`${icon.logo.split('/').pop()} Logo`}
+                  className={`social-logo ${logoVisible[index] ? 'pop-in' : ''}`}
+                  onClick={() => window.open(icon.url, "_blank")}
                 />
               </div>
-              <div className="social-icon">
-                <img
-                  src={twitterLogo}
-                  alt="Twitter Logo"
-                  className={`social-logo ${logoVisible[1] ? 'pop-in' : ''}`}
-                  onClick={() => window.open("https://x.com/kieon_kip", "_blank")}
-                />
-              </div>
-              <div className="social-icon">
-                <img
-                  src={instagramLogo}
-                  alt="Instagram Logo"
-                  className={`social-logo ${logoVisible[2] ? 'pop-in' : ''}`}
-                  onClick={() => window.open("https://www.instagram.com/peaeanutz/", "_blank")}
-                />
-              </div>
-              <div className="social-icon">
-                <img
-                  src={facebookLogo}
-                  alt="facebook Logo"
-                  className={`social-logo ${logoVisible[3] ? 'pop-in' : ''}`}
-                  onClick={() => window.open("", "_blank")}
-                />
-              </div>
-              <div className="social-icon">
-                <img
-                  src={youtubeLogo}
-                  alt="youtube Logo"
-                  className={`social-logo ${logoVisible[4] ? 'pop-in' : ''}`}
-                  onClick={() => window.open("https://www.facebook.com/me/", "_blank")}
-                />
-              </div>
-              <div className="social-icon">
-                <img
-                  src={steamLogo}
-                  alt="steam Logo"
-                  className={`social-logo ${logoVisible[5] ? 'pop-in' : ''}`}
-                  onClick={() => window.open("https://steamcommunity.com/profiles/76561198991066994/", "_blank")}
-                />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
 
 function App() {
-  const [backgroundColor, setBackgroundColor] = useState('#000000');
+  const [backgroundColor, setBackgroundColor] = useState('#EAD4DD');
+  const [textColor, setTextColor] = useState('#ffffff');
   const [media, setMedia] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState(null);
   const [sortOrder, setSortOrder] = useState('desc');
@@ -122,6 +95,18 @@ function App() {
   const [projectFiles, setProjectFiles] = useState([]);
 
   useEffect(() => {
+
+        // Calculate brightness and set text color
+        const getBrightness = (hexColor) => {
+          const r = parseInt(hexColor.slice(1, 3), 16);
+          const g = parseInt(hexColor.slice(3, 5), 16);
+          const b = parseInt(hexColor.slice(5, 7), 16);
+          return (r * 299 + g * 587 + b * 114) / 1000;
+        };
+
+        const brightness = getBrightness(backgroundColor);
+        setTextColor(brightness > 128 ? '#000000' : '#ffffff');
+
     // Fetch both media and project files in the same effect
     const fetchData = async () => {
       try {
@@ -155,7 +140,7 @@ function App() {
     };
 
     fetchData();
-  }, [sortOrder]);
+  }, [sortOrder, backgroundColor]);
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -231,7 +216,19 @@ function App() {
     }
 
     const mediaItem = media[index];
+
+    if (!mediaItem) {
+      console.error("Media item is undefined");
+      return;
+    }
+
     const mediaRef = ref(storage, mediaItem.src);
+
+    if (!mediaItem.src) {
+      console.error("Media source is undefined");
+      return;
+    }
+
     const docRef = doc(db, 'media', mediaItem.id);
 
     try {
@@ -265,7 +262,7 @@ function App() {
       return (
         <>
           <MediaCarousel media={media} />
-          <div className="counter-container">
+          <div className="counter-container"style={{ color: textColor }}>
             <div className="counter">
               <p>Images: {imageCount}</p>
               <p>Videos: {videoCount}</p>
@@ -274,8 +271,8 @@ function App() {
           <div className="main-content-wrapper" style={{ display: 'flex' }}>
             <SidePanel media={media} onDeleteMedia={handleDeleteMedia} onMediaClick={handleMediaClick} backgroundColor={backgroundColor} />
             <div className="main-content" style={{ flex: 1, marginLeft: '50px' }}>
-              <div className="media-options-container">
-                <div className="media-type-dropdown">
+              <div className="media-options-container"style={{ color: textColor }}>
+                <div className="media-type-dropdown"style={{ color: textColor }}>
                   <label htmlFor="mediaType">Show:</label>
                   <select
                     id="mediaType"
@@ -288,7 +285,7 @@ function App() {
                   </select>
                 </div>
               </div>
-              <div className="sort-dropdown-container">
+              <div className="sort-dropdown-container"style={{ color: textColor }}>
                 <label htmlFor="sortOrder">Sort By:</label>
                 <select
                   id="sortOrder"
@@ -314,7 +311,7 @@ function App() {
       );
     } else if (activeTab === 'about') {
       return (
-        <div className="about-page">
+        <div className="about-page"style={{ color: textColor }}>
           {/* Introduction Section */}
           <section className="introduction-section">
           <div className="profile-image-wrapper">
@@ -364,15 +361,15 @@ function App() {
             <h2>Experience</h2>
             <div className="timeline">
               <div className="timeline-item">
-                <div className="timeline-date">2008 - 2024</div>
+                <div className="timeline-date">2008 - 2014</div>
                 <p>UPSR - SK Cyberjaya</p>
               </div>
               <div className="timeline-item">
-                <div className="timeline-date">2008 - 2014</div>
+                <div className="timeline-date">2015 - 2017</div>
                 <p>PT3 - SMK Bandar Puncak Jalil</p>
               </div>
               <div className="timeline-item">
-                <div className="timeline-date">2015 - 2020</div>
+                <div className="timeline-date">2017 - 2020</div>
                 <p>SPM - SMK Bandar Puncak Jalil</p>
               </div>
               <div className="timeline-item">
@@ -383,7 +380,7 @@ function App() {
           </section>
     
           {/* Contact Section */}
-          <section className="contact-section">
+          <section className="contact-section"style={{ color: textColor }}>
           <h2>Contact</h2>
           <div className="contact-details">
             <div className="contact-item">
@@ -400,7 +397,7 @@ function App() {
       );
     } else if (activeTab === 'projects') {
       return (
-        <div className="projects-section">
+        <div className="projects-section"style={{ color: textColor }}>
           <h2>My Projects</h2>
           <p>Here are some of my recent projects...</p>
           
@@ -439,8 +436,12 @@ function App() {
   };
 
   return (
-    <div className="App" style={{ backgroundColor: backgroundColor, minHeight: '100vh', padding: '20px', transition: 'background-color 1s ease' }}>
-      <AppHeader setActiveTab={setActiveTab} />
+    <div className="App" style={{ backgroundColor, color: textColor, minHeight: '100vh', padding: '20px', transition: 'background-color 1s ease' }}>
+      <AppHeader
+        setActiveTab={setActiveTab}
+        backgroundColor={backgroundColor}
+        setBackgroundColor={setBackgroundColor}
+      />
       {renderContent()}
       {selectedMedia && (
         <div className="media-modal">
@@ -455,5 +456,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
