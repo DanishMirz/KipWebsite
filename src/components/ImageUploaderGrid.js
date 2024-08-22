@@ -6,7 +6,7 @@ import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import './ImageUploaderGrid.css';
 
 const ImageUploaderGrid = ({ onBackgroundColorChange, backgroundColor, onMediaUpload, onDeleteMedia, media, onMediaClick }) => {
-  
+
   const handleFileChange = async (event) => {
     const files = Array.from(event.target.files);
     console.log('Selected files:', files);  // Log the selected files for debugging
