@@ -10,7 +10,7 @@ const MediaCarousel = ({ media }) => {
       setCurrentIndex((prevIndex) =>
         prevIndex === media.length - 1 ? 0 : prevIndex + 1
       );
-    }, 15000); // Change slide every 3 seconds
+    }, 15000); // Change slide every 15 seconds
 
     return () => clearInterval(interval);
   }, [media]);

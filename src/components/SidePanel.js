@@ -15,15 +15,17 @@ const SidePanel = ({ media, onDeleteMedia, onMediaClick, backgroundColor }) => {
             )}
             <div className="side-overlay">
               <div className="side-timestamp">{item.timestamp}</div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDeleteMedia(index);
-                }}
-                className="side-delete-button"
-              >
-                Remove
-              </button>
+              {onDeleteMedia && ( // Only show delete button if onDeleteMedia is provided
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteMedia(index);
+                  }}
+                  className="side-delete-button"
+                >
+                  Remove
+                </button>
+              )}
             </div>
           </div>
         ))}

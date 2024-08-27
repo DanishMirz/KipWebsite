@@ -698,7 +698,7 @@ nav {
   object-fit: contain;
   background-color: transparent;
   margin: 0 15px;
-  opacity: 0; /* Initially hidden */
+  opacity: 1; /* Initially hidden */
 }
 
 .social-logo.pop-in {
@@ -789,17 +789,19 @@ button:hover {
   margin-top: 20px;
   gap: 10px;
   width: 100%;
+  z-index: 999; /* Ensure it stays on top of other content */
 }
 
 /* Individual Social Icon */
 .social-icon img {
-  width: 50px;
-  height: 50px;
+  width: 40px; /* Adjust the size of the icons */
+  height: 40px;
+  margin: 10px;
   transition: transform 0.3s ease;
 }
 
 .social-icon img:hover {
-  transform: scale(1.1); /* Slightly enlarge on hover */
+  transform: scale(1.2); /* Add a hover effect to make them interactive */
 }
 
 /* Styling for the "Socials" text that stays on the side */
@@ -1013,11 +1015,14 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 20px;
+  line-height: 1.6; /* Increase line height for better readability */
+  font-size: 1.2em; /* Adjust font size */
   background-color: #1a1a1a;
   border-radius: 10px;
   opacity: 0; /* Hidden initially */
   animation: fadeIn 1s ease-out forwards; /* Apply fade-in animation */
+  word-wrap: break-word; /* Ensure long words are broken */
 }
 
 .about-image {
@@ -1301,4 +1306,89 @@ button:hover {
 
 .contact-item a:hover {
   color: #fff;
+}
+
+
+
+
+
+
+/* Styles for mobile devices */
+@media only screen and (max-width: 600px) {
+  body {
+    font-size: 16px; /* Adjust the font size for smaller devices */
+  }
+
+  .header {
+    flex-direction: column; /* Stack the navigation items vertically */
+  }
+
+  .about-section {
+    padding: 20px; /* Adjust padding for smaller devices */
+    text-align: center; /* Center text on smaller devices */
+  }
+
+  .image-container {
+    width: 100%; /* Make images take the full width */
+  }
+
+  .social-links {
+    display: none; /* Hide social links or adjust them for smaller screens */
+  }
+}
+
+/* Styles for tablets */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  body {
+    font-size: 18px;
+  }
+
+  .header {
+    flex-direction: row; /* Align navigation items horizontally */
+  }
+
+  .about-section {
+    padding: 30px;
+  }
+
+  .image-container {
+    width: 50%; /* Adjust image size */
+  }
+}
+
+/* Styles for desktops */
+@media only screen and (min-width: 1025px) {
+  body {
+    font-size: 20px;
+  }
+
+  .about-section {
+    padding: 40px;
+  }
+
+  .image-container {
+    width: 40%; /* Adjust image size for larger screens */
+  }
+}
+
+
+
+
+
+
+.logout-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 20px; /* Adjust this value to fine-tune vertical position */
+  right: 20px; /* Adjust this value to fine-tune horizontal position */
+}
+
+.logout-button:hover {
+  background-color: darkred;
 }

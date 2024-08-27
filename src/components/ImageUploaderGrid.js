@@ -66,28 +66,30 @@ const ImageUploaderGrid = ({ onBackgroundColorChange, backgroundColor, onMediaUp
         Insert Media
       </label>
       <div className="media-grid" style={{ backgroundColor: backgroundColor }}>
-        {media.map((item, index) => (
-          <div key={index} className="media-container" onClick={() => handleMediaClickWrapper(item)}>
-            {item.type === 'image' ? (
-              <img src={item.src} alt={`Uploaded ${index}`} className="uploaded-media" />
-            ) : (
-              <video src={item.src} controls className="uploaded-media" />
-            )}
-            <div className="overlay">
-              <div className="timestamp">{item.timestamp}</div>
-              <button
+       {media.map((item, index) => (
+        <div key={index} className="media-container" onClick={() => handleMediaClickWrapper(item)}>
+         {item.type === 'image' ? (
+          <img src={item.src} alt={`Uploaded ${index}`} className="uploaded-media" />
+         ) : (
+           <video src={item.src} controls className="uploaded-media" />
+         )}
+           <div className="overlay">
+             <div className="timestamp">{item.timestamp}</div>
+           {onDeleteMedia && (  // This check ensures the delete button only shows if onDeleteMedia is defined
+            <button
                 onClick={(e) => {
-                  e.stopPropagation();
-                  onDeleteMedia(index);
-                }}
-                className="delete-button"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        ))}
+              e.stopPropagation();
+              onDeleteMedia(index);
+            }}
+            className="delete-button"
+          >
+            Remove
+          </button>
+        )}
       </div>
+    </div>
+  ))}
+</div>
     </div>
   );
 };
