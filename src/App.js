@@ -119,7 +119,7 @@ function AppHeader({ setActiveTab, backgroundColor, setBackgroundColor, handleLo
 
   return (
     <header className="app-header">
-      <h1>DANISH WEBSITE</h1>
+      <h1>KIEON WEBSITE</h1>
       <nav className="nav-bar">
         <button onClick={() => setActiveTab('home')} className="nav-link">Home</button>
         <button onClick={() => setActiveTab('about')} className="nav-link">About</button>
