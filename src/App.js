@@ -501,7 +501,7 @@ function App() {
                   id="fileUpload"
                   style={{ display: 'none' }}
                   onChange={handleFileUpload}
-                  accept=".pdf,.docx,.word,psd"
+                  accept=".pdf,.docx,.word,.psd"
                 />
                 <label htmlFor="fileUpload" className="file-upload-button">
                   Insert File
