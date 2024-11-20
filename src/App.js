@@ -10,15 +10,12 @@ import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 import discordLogo from './Discord.png';
 import twitterLogo from './twitter.png';
-import instagramLogo from './Instagram.png';
-import facebookLogo from './facebook.png';
 import youtubeLogo from './youtube.png';
 import steamLogo from './steam.png';
 import profile from './Me.png';
 import ProgrammingIcon from './Programmer.ico';
 import DesigningIcon from './Designing.ico';
 import VideoEditingIcon from './Video editing.ico';
-import DrawingIcon from './2D Art Drawing.ico';
 
 // Define the LoginSignupForm component
 function LoginSignupForm({ setUser }) {
@@ -149,9 +146,7 @@ function AppHeader({ setActiveTab, backgroundColor, setBackgroundColor, handleLo
         <div className="social-icons-container">
   {[
     { logo: discordLogo, url: "https://discord.gg/nEYdbY6zAV", alt: 'Discord' },
-    { logo: twitterLogo, url: "", alt: 'Twitter' },
-    { logo: instagramLogo, url: "https://www.instagram.com/peaeanutz/", alt: 'Instagram' },
-    { logo: facebookLogo, url: "", alt: 'Facebook' },
+    { logo: twitterLogo, url: "https://x.com/kieon_kip", alt: 'Twitter' },
     { logo: youtubeLogo, url: "https://www.youtube.com/", alt: 'YouTube' },
     { logo: steamLogo, url: "https://steamcommunity.com/profiles/76561198991066994/", alt: 'Steam' }
   ].map((icon, index) => (
@@ -454,12 +449,6 @@ function App() {
                   <img src={VideoEditingIcon} alt="Video Editing Icon" className="skill-icon" />
                 </a>
                 <p>Video Editing</p>
-              </div>
-              <div className="skill">
-                <a href="https://apcentral.collegeboard.org/courses/ap-drawing/portfolio/past-exam-questions" target="_blank" rel="noopener noreferrer">
-                  <img src={DrawingIcon} alt="2D Art Drawing Icon" className="skill-icon" />
-                </a>
-                <p>2D Art Drawing</p>
               </div>
             </div>
           </section>
