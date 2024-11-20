@@ -62,3 +62,10 @@
     background-color: #0056b3;
   }
   
+  /* Error message styling */
+.error-message {
+    color: red;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: bold;
+  }

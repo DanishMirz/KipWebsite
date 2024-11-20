@@ -430,7 +430,7 @@ function App() {
             <div className="introduction-text">
               <h1>About Me</h1>
               <p>
-                Hello! I'm Danish, an enthusiastic IT Programmer with a deep passion for creating intuitive websites and innovative system UIs. My journey in programming has equipped me with the skills to transform ideas into impactful digital experiences that truly make a difference. I believe in the power of technology to solve problems and improve lives, and I constantly strive to push the boundaries of what's possible in the digital world. Whether it's designing sleek interfaces or writing clean, efficient code, I'm driven by the challenge of bringing concepts to life in a way that leaves a lasting impression.
+                Howdy! Names Dan , an enthusiastic IT Programmer with a deep passion for creating intuitive websites and innovative system UIs. My journey in programming has equipped me with the skills to transform ideas into impactful digital experiences that truly make a difference. I believe in the power of technology to solve problems and improve lives, and I constantly strive to push the boundaries of what's possible in the digital world. Whether it's designing sleek interfaces or writing clean, efficient code, I'm driven by the challenge of bringing concepts to life in a way that leaves a lasting impression.
               </p>
             </div>
           </section>
@@ -512,7 +512,7 @@ function App() {
                   id="fileUpload"
                   style={{ display: 'none' }}
                   onChange={handleFileUpload}
-                  accept=".pdf,.docx,.word"
+                  accept=".pdf,.docx,.word,psd"
                 />
                 <label htmlFor="fileUpload" className="file-upload-button">
                   Insert File
